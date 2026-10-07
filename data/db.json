@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": "user-1791308847566-0e2afbb7a9eea",
+      "username": "Nived G Nair",
+      "passwordSalt": "dcd2cc84a610ab6bae59451237fcb652",
+      "passwordHash": "f8c082d75a5f89282020b1a2b78dbeda79e4a3f3e44c2de868e694f6f3270b09522632f5c2eef49898d02485e47e03ee01d9024792408dc4522a77123e14c5b0"
+    },
+    {
+      "id": "user-1791309744950-b412c905813b5",
+      "username": "Evan",
+      "passwordSalt": "9c3e2674257d44cdec7a2adaff7cb65b",
+      "passwordHash": "3f092eea612ce50b45233ce9ed90d1bb5c06fecd70a8adb45ebf92a05fd8554c82dc94e9f0c25eac282f7f38a853935ea43ebb199af79d0e8f8ab3b0b865f183"
+    }
+  ],
+  "monthlyLimit": 300,
+  "categories": [
+    {
+      "id": "food",
+      "name": "Food",
+      "limit": 0
+    },
+    {
+      "id": "studies",
+      "name": "Studies",
+      "limit": 0
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "limit": 0
+    },
+    {
+      "id": "hostel",
+      "name": "Hostel",
+      "limit": 0
+    },
+    {
+      "id": "other",
+      "name": "Other",
+      "limit": 0
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-1791309784391-96cc446ccec84",
+      "title": "Lunch",
+      "amount": 250,
+      "categoryId": "food",
+      "date": "2026-10-06"
+    }
+  ]
+}

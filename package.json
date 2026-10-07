@@ -1,0 +1,22 @@
+{
+  "name": "student-finance-tracker",
+  "version": "1.0.0",
+  "description": "A student finance tracker with monthly and category spending limits.",
+  "main": "server.js",
+  "scripts": {
+    "db:start": "node scripts/db.js start",
+    "db:stop": "node scripts/db.js stop",
+    "start": "node scripts/db.js start && node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "keywords": [
+    "student",
+    "finance",
+    "budget",
+    "tracker"
+  ],
+  "author": "",
+  "license": "MIT"
+}
