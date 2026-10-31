@@ -1,41 +1,80 @@
-# PostgreSQL setup
+# PostgreSQL Setup
 
-This app now stores data in PostgreSQL instead of `data/db.json`.
+## 1. Requirements
 
-## Default local setup
+- Node.js
+- PostgreSQL
+- npm
 
-Running the app starts a project-local PostgreSQL server on port `55432`:
+## 2. Install dependencies
 
-```powershell
+Run:
+
+npm install
+
+## 3. Configure PostgreSQL
+
+The application uses these default settings:
+
+Host: localhost
+Port: 55432
+Database: student_finance_tracker
+Username: student_finance_app
+Password: student_finance_app
+
+You can override these settings using environment variables:
+
+PGHOST
+PGPORT
+PGDATABASE
+PGUSER
+PGPASSWORD
+
+Alternatively, configure DATABASE_URL.
+
+## 4. Database initialization
+
+On the first startup, the application:
+
+1. Creates the schema version table.
+2. Removes the old shared-data tables.
+3. Creates the user-specific database tables.
+4. Creates indexes and ownership constraints.
+
+The reset is performed only once.
+
+Subsequent startups preserve registered users and their data.
+
+IMPORTANT:
+The first initialization deletes old shared expenses,
+categories, budgets, and user accounts.
+
+## 5. Start the application
+
+Run:
+
 npm start
-```
 
-The local database files live in `.postgres-data`. On first startup, the app creates the database, tables, and imports the existing `data/db.json` data.
+Open:
 
-Use this to stop the project-local PostgreSQL server:
+http://localhost:3000
 
-```powershell
-npm run db:stop
-```
+## 6. Test user isolation
 
-## Use another PostgreSQL server
+1. Register User A.
+2. Add expenses and set a monthly budget.
+3. Log out.
+4. Register User B.
+5. Verify User B has separate categories and no expenses.
+6. Add expenses for User B.
+7. Log back into User A.
+8. Verify User A's original expenses remain unchanged.
 
-Set either a full connection string:
+## 7. Security
 
-```powershell
-$env:DATABASE_URL="postgres://postgres:your_password@localhost:5432/student_finance_tracker"
-npm start
-```
-
-Or individual PostgreSQL variables:
-
-```powershell
-$env:PGHOST="localhost"
-$env:PGPORT="5432"
-$env:PGDATABASE="student_finance_tracker"
-$env:PGUSER="postgres"
-$env:PGPASSWORD="your_password"
-npm start
-```
-
-The database named by `PGDATABASE` or `DATABASE_URL` must already exist when using an external PostgreSQL server. On startup, the app creates its own tables and imports the existing `data/db.json` data if the PostgreSQL categories table is empty.
+- Passwords are hashed using PBKDF2-SHA512.
+- Sessions are stored in PostgreSQL.
+- Session cookies are HttpOnly.
+- Every financial record belongs to a user.
+- API routes check record ownership.
+- Expenses cannot reference another user's category.

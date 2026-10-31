@@ -1,180 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Finance Tracker</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="auth-shell" id="authScreen">
-      <section class="auth-card">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Finance Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <main class="auth-shell" id="authScreen">
+    <section class="auth-card">
+      <p class="eyebrow">Student Budget</p>
+      <h1>Finance Tracker</h1>
+      <p class="auth-copy">
+        Login or register to open your dashboard.
+      </p>
+
+      <form class="form-stack" id="authForm">
+        <label>
+          Username
+          <input
+            id="authUsername"
+            type="text"
+            minlength="2"
+            maxlength="24"
+            placeholder="Enter username"
+            required
+          />
+        </label>
+
+        <label>
+          Password
+          <span class="password-control">
+            <input
+              id="authPassword"
+              type="password"
+              minlength="8"
+              placeholder="Enter password"
+              required
+            />
+            <button
+              class="icon-btn"
+              id="togglePassword"
+              type="button"
+              aria-label="Show password"
+              title="Show password"
+            >&#128065;</button>
+          </span>
+        </label>
+
+        <div class="auth-actions">
+          <button
+            class="primary-btn"
+            type="submit"
+            data-auth-action="login"
+          >
+            Login
+          </button>
+
+          <button
+            type="submit"
+            data-auth-action="register"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+
+      <button
+        class="link-btn"
+        id="forgotPasswordButton"
+        type="button"
+        disabled
+        title="Password recovery is not configured"
+      >
+        Password reset unavailable
+      </button>
+
+      <form class="form-stack is-hidden" id="forgotForm">
+        <label>
+          Username
+          <input
+            id="forgotUsername"
+            type="text"
+            minlength="2"
+            maxlength="24"
+            placeholder="Enter registered username"
+            required
+          />
+        </label>
+
+        <label class="is-hidden" id="newPasswordGroup">
+          New Password
+          <span class="password-control">
+            <input
+              id="newPassword"
+              type="password"
+              minlength="8"
+              placeholder="Enter new password"
+            />
+            <button
+              class="icon-btn"
+              id="toggleNewPassword"
+              type="button"
+              aria-label="Show new password"
+              title="Show new password"
+            >&#128065;</button>
+          </span>
+        </label>
+
+        <div class="auth-actions">
+          <button
+            class="primary-btn"
+            id="forgotSubmitButton"
+            type="submit"
+          >
+            Check Username
+          </button>
+
+          <button type="button" id="backToLoginButton">
+            Back
+          </button>
+        </div>
+      </form>
+
+      <p
+        class="auth-message"
+        id="authMessage"
+        aria-live="polite"
+      ></p>
+    </section>
+  </main>
+
+  <main class="app-shell is-hidden" id="appScreen">
+    <header class="topbar">
+      <div>
         <p class="eyebrow">Student Budget</p>
         <h1>Finance Tracker</h1>
-        <p class="auth-copy">Login or register to open your dashboard.</p>
+      </div>
 
-        <form class="form-stack" id="authForm">
-          <label>
-            Username
-            <input id="authUsername" type="text" minlength="2" maxlength="24" placeholder="Enter username" required />
-          </label>
-          <label>
-            Password
-            <span class="password-control">
-              <input id="authPassword" type="password" minlength="4" placeholder="Enter password" required />
-              <button class="icon-btn" id="togglePassword" type="button" aria-label="Show password" title="Show password">&#128065;</button>
-            </span>
-          </label>
-          <div class="auth-actions">
-            <button class="primary-btn" type="submit" data-auth-action="login">Login</button>
-            <button type="submit" data-auth-action="register">Register</button>
-          </div>
+      <div class="user-panel">
+        <div class="topbar__badge" id="monthLabel"></div>
+
+        <div class="topbar__badge">
+          User: <span id="usernameLabel"></span>
+        </div>
+
+        <button
+          class="logout-btn"
+          id="logoutButton"
+          type="button"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <section
+      class="alert-strip"
+      id="alerts"
+      aria-live="polite"
+    ></section>
+
+    <section
+      class="summary-grid"
+      aria-label="Budget summary"
+    >
+      <article class="summary-card">
+        <span>Monthly Limit</span>
+        <strong id="monthlyLimitText">₹0</strong>
+
+        <form class="inline-form" id="monthlyLimitForm">
+          <input
+            id="monthlyLimitInput"
+            type="number"
+            min="0"
+            step="1"
+            aria-label="Monthly limit"
+          />
+          <button type="submit">Update</button>
         </form>
-        <button class="link-btn" id="forgotPasswordButton" type="button">Forgot password?</button>
+      </article>
 
-        <form class="form-stack is-hidden" id="forgotForm">
-          <label>
-            Username
-            <input id="forgotUsername" type="text" minlength="2" maxlength="24" placeholder="Enter registered username" required />
-          </label>
-          <label class="is-hidden" id="newPasswordGroup">
-            New Password
-            <span class="password-control">
-              <input id="newPassword" type="password" minlength="4" placeholder="Enter new password" />
-              <button class="icon-btn" id="toggleNewPassword" type="button" aria-label="Show new password" title="Show new password">&#128065;</button>
-            </span>
-          </label>
-          <div class="auth-actions">
-            <button class="primary-btn" id="forgotSubmitButton" type="submit">Check Username</button>
-            <button type="button" id="backToLoginButton">Back</button>
-          </div>
-        </form>
-        <p class="auth-message" id="authMessage" aria-live="polite"></p>
-      </section>
-    </main>
+      <article class="summary-card">
+        <span>Total Spent</span>
+        <strong id="totalSpentText">₹0</strong>
 
-    <main class="app-shell is-hidden" id="appScreen">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Student Budget</p>
-          <h1>Finance Tracker</h1>
+        <div class="meter" aria-hidden="true">
+          <div class="meter__fill" id="monthlyMeter"></div>
         </div>
-        <div class="user-panel">
-          <div class="topbar__badge" id="monthLabel"></div>
-          <div class="topbar__badge">User: <span id="usernameLabel"></span></div>
-          <button class="logout-btn" id="logoutButton" type="button">Logout</button>
-        </div>
-      </header>
+      </article>
 
-      <section class="alert-strip" id="alerts" aria-live="polite"></section>
+      <article class="summary-card">
+        <span>Remaining</span>
+        <strong id="remainingText">₹0</strong>
+        <p id="remainingHint">You are within your plan.</p>
+      </article>
+    </section>
 
-      <section class="summary-grid" aria-label="Budget summary">
-        <article class="summary-card">
-          <span>Monthly Limit</span>
-          <strong id="monthlyLimitText">₹0</strong>
-          <form class="inline-form" id="monthlyLimitForm">
-            <input id="monthlyLimitInput" type="number" min="0" step="1" aria-label="Monthly limit" />
-            <button type="submit">Update</button>
-          </form>
-        </article>
-
-        <article class="summary-card">
-          <span>Total Spent</span>
-          <strong id="totalSpentText">₹0</strong>
-          <div class="meter" aria-hidden="true">
-            <div class="meter__fill" id="monthlyMeter"></div>
-          </div>
-        </article>
-
-        <article class="summary-card">
-          <span>Remaining</span>
-          <strong id="remainingText">₹0</strong>
-          <p id="remainingHint">You are within your plan.</p>
-        </article>
-      </section>
-
-      <section class="workspace">
-        <div class="panel">
-          <div class="panel__header">
-            <h2>Add Expense</h2>
-          </div>
-          <form class="form-stack" id="expenseForm">
-            <label>
-              Item
-              <input id="expenseTitle" type="text" placeholder="Lunch, notebook, bus pass" required />
-            </label>
-            <div class="form-row">
-              <label>
-                Amount
-                <input id="expenseAmount" type="number" min="1" step="0.01" placeholder="250" required />
-              </label>
-              <label>
-                Date
-                <input id="expenseDate" type="date" required />
-              </label>
-            </div>
-            <label>
-              Category
-              <select id="expenseCategory" required></select>
-            </label>
-            <button class="primary-btn" type="submit">Add Expense</button>
-          </form>
-        </div>
-
-        <div class="panel chart-panel">
-          <div class="panel__header">
-            <h2>Expense Chart</h2>
-            <span>This month</span>
-          </div>
-          <div class="chart-layout">
-            <canvas id="expensePieChart" width="260" height="260" aria-label="Expense pie chart"></canvas>
-            <div class="chart-legend" id="chartLegend"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="workspace workspace--single">
-        <div class="panel">
-          <div class="panel__header">
-            <h2>Category Limits</h2>
-          </div>
-          <form class="category-form" id="categoryForm">
-            <input id="categoryName" type="text" placeholder="Category name" required />
-            <input id="categoryLimit" type="number" min="0" step="1" placeholder="Limit" required />
-            <button type="submit">Add</button>
-          </form>
-          <div class="category-list" id="categoryList"></div>
-        </div>
-      </section>
-
-      <section class="panel expenses-panel">
+    <section class="workspace">
+      <div class="panel">
         <div class="panel__header">
-          <h2>Recent Expenses</h2>
-          <span id="expenseCount">0 records</span>
+          <h2>Add Expense</h2>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th class="amount-cell">Amount</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="expenseTable"></tbody>
-          </table>
+
+        <form class="form-stack" id="expenseForm">
+          <label>
+            Item
+            <input
+              id="expenseTitle"
+              type="text"
+              placeholder="Lunch, notebook, bus pass"
+              required
+            />
+          </label>
+
+          <div class="form-row">
+            <label>
+              Amount
+              <input
+                id="expenseAmount"
+                type="number"
+                min="1"
+                step="0.01"
+                placeholder="250"
+                required
+              />
+            </label>
+
+            <label>
+              Date
+              <input
+                id="expenseDate"
+                type="date"
+                required
+              />
+            </label>
+          </div>
+
+          <label>
+            Category
+            <select id="expenseCategory" required></select>
+          </label>
+
+          <button class="primary-btn" type="submit">
+            Add Expense
+          </button>
+        </form>
+      </div>
+
+      <div class="panel chart-panel">
+        <div class="panel__header">
+          <h2>Expense Chart</h2>
+          <span>This month</span>
         </div>
-      </section>
-    </main>
 
-    <template id="emptyStateTemplate">
-      <tr>
-        <td colspan="5" class="empty-state">No expenses yet. Add your first spending record above.</td>
-      </tr>
-    </template>
+        <div class="chart-layout">
+          <canvas
+            id="expensePieChart"
+            width="260"
+            height="260"
+            aria-label="Expense pie chart"
+          ></canvas>
 
-    <script src="script.js"></script>
-  </body>
+          <div
+            class="chart-legend"
+            id="chartLegend"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace workspace--single">
+      <div class="panel">
+        <div class="panel__header">
+          <h2>Category Limits</h2>
+        </div>
+
+        <form class="category-form" id="categoryForm">
+          <input
+            id="categoryName"
+            type="text"
+            placeholder="Category name"
+            required
+          />
+
+          <input
+            id="categoryLimit"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Limit"
+            required
+          />
+
+          <button type="submit">Add</button>
+        </form>
+
+        <div
+          class="category-list"
+          id="categoryList"
+        ></div>
+      </div>
+    </section>
+
+    <section class="panel expenses-panel">
+      <div class="panel__header">
+        <h2>Recent Expenses</h2>
+        <span id="expenseCount">0 records</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th class="amount-cell">Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody id="expenseTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <template id="emptyStateTemplate">
+    <tr>
+      <td colspan="5" class="empty-state">
+        No expenses yet. Add your first spending record above.
+      </td>
+    </tr>
+  </template>
+
+  <script src="script.js"></script>
+</body>
 </html>
